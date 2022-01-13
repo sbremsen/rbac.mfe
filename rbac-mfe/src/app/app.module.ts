@@ -1,8 +1,11 @@
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AuthtokenService } from './interceptors/authtoken.service';
+import { RbacService } from './services/rbac.service';
 
 @NgModule({
   declarations: [
@@ -10,9 +13,13 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [ 
+    RbacService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthtokenService, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
